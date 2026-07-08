@@ -4,6 +4,7 @@ from web.parser import parse_request
 from web.response import Response
 from web.serializer import serialize_response
 from web.router import Router
+from controllers.pages import (home,posts,login)
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -22,34 +23,7 @@ request = parse_request(raw_request)
 print(request.method)
 print(request.path)
 
-def home(request):
-    return Response(
-        body="Welcome to the Home Page!",
-        headers={
-            "Content-Type": "text/plain"
-        }
-    )
-
-
-def posts(request):
-    return Response(
-        body="All Blog Posts",
-        headers={
-            "Content-Type": "text/plain"
-        }
-    )
-
-
-def login(request):
-    return Response(
-        body="Login Page",
-        headers={
-            "Content-Type": "text/plain"
-        }
-    )
-
 router = Router()
-
 router.add_route("GET", "/", home)
 router.add_route("GET", "/posts", posts)
 router.add_route("GET", "/login", login)
