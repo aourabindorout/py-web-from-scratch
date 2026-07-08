@@ -12,26 +12,25 @@ server.bind(("localhost", 8080))
 
 server.listen()
 
-print("Waiting...")
-
-client, addr = server.accept()
-
-raw_request = client.recv(4096).decode()
-
-request = parse_request(raw_request)
-
-print(request.method)
-print(request.path)
-
 router = Router()
 router.add_route("GET", "/", home)
 router.add_route("GET", "/posts", posts)
 router.add_route("GET", "/login", login)
 
-response = router.resolve(request)
+print("Server started on http://localhost:8080")
 
-raw_response = serialize_response(response)
+while True:
 
-client.send(raw_response.encode())
+    client, addr = server.accept()
 
-client.close()
+    raw_request = client.recv(4096).decode()
+
+    request = parse_request(raw_request)
+
+    response = router.resolve(request)
+
+    raw_response = serialize_response(response)
+
+    client.send(raw_response.encode())
+
+    client.close()
