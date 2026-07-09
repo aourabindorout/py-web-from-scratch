@@ -45,30 +45,36 @@ The purpose of this project is to understand each of these layers by implementin
 * Integrate a database
 * Build a complete blog application without using an existing web framework
 
-## Current Progress
+##Current Progress
 
-* ✅ TCP socket server
-* ✅ Browser-to-server communication
-* ✅ HTTP request parsing
-* ✅ Request object abstraction
-* ✅ HTTP response generation
-* ✅ Response serialization
+✅ TCP socket server
+✅ Browser-to-server communication
+✅ Continuous server loop
+✅ HTTP request parsing
+✅ Request object abstraction
+✅ HTTP response generation
+✅ Response object abstraction
+✅ HTTP response serialization
+✅ Request routing
+✅ HTML responses
+✅ Template loading
+✅ Minimal template engine
+✅ Render helper
+✅ In-memory repository layer
 
-## Planned Roadmap
+##Planned Roadmap
 
-* Request routing
-* Dynamic route parameters
-* Query parameter parsing
-* HTML responses
-* Template engine
-* Static file serving
-* Forms and POST requests
-* SQLite integration
-* ORM (minimal)
-* Session management
-* Authentication
-* Authorization
-* JWT authentication
+□ Forms and POST requests
+□ Dynamic route parameters
+□ Query parameter parsing
+□ Static file serving
+□ SQLite integration
+□ ORM (minimal)
+□ Session management
+□ Authentication
+□ Authorization
+□ JWT authentication
+□ Production-ready project structure
 * Production-ready project structure
 
 ## Repository Structure
