@@ -1,22 +1,31 @@
 from web.request import Request
+from utils.form_parser import parse_form
 
 
 def parse_request(raw_request):
-    lines = raw_request.split("\r\n")
 
-    request_line = lines[0]
+    header_text, body = raw_request.split("\r\n\r\n", 1)
 
-    method, path, version = request_line.split()
+    lines = header_text.split("\r\n")
+
+    method, path, version = lines[0].split()
 
     headers = {}
 
     for line in lines[1:]:
-        if line == "":
-            break
-
         key, value = line.split(": ", 1)
         headers[key] = value
 
-    body = ""
+    form = {}
 
-    return Request(method, path, version, headers, body)
+    if headers.get("Content-Type") == "application/x-www-form-urlencoded":
+        form = parse_form(body)
+
+    return Request(
+        method,
+        path,
+        version,
+        headers,
+        body,
+        form
+    )
