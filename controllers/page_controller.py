@@ -1,12 +1,25 @@
 from utils.render import render
-
+from database.repository import get_all_posts
 
 def home(request):
     return render("home.html")
 
 
 def posts(request):
-    return render("posts.html")
+
+    posts = get_all_posts()
+
+    html = ""
+
+    for post in posts:
+        html += f"<li>{post['title']}</li>"
+
+    return render(
+        "posts.html",
+        {
+            "posts": html
+        }
+    )
 
 
 def login(request):
