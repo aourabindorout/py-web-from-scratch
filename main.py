@@ -26,6 +26,9 @@ while True:
     raw_request = client.recv(4096).decode()
 
     request = parse_request(raw_request)
+    print(request.method)
+    print(request.path)
+    print(request.form)
 
     response = router.resolve(request)
 

@@ -6,10 +6,12 @@ class Request:
         path,
         version,
         headers,
-        body
+        body,
+        form
     ):
         self.method = method
         self.path = path
         self.version = version
         self.headers = headers
         self.body = body
+        self.form = form or {}
