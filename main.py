@@ -4,7 +4,8 @@ from web.parser import parse_request
 from web.response import Response
 from web.serializer import serialize_response
 from web.router import Router
-from controllers.page_controller import (home,posts,show_login,login)
+from controllers.page_controller import home, posts, show_login
+from controllers.login_controller import login
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
