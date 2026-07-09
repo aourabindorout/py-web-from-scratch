@@ -4,7 +4,7 @@ from web.parser import parse_request
 from web.response import Response
 from web.serializer import serialize_response
 from web.router import Router
-from controllers.page_controller import (home,posts,login)
+from controllers.page_controller import (home,posts,show_login,login)
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -15,7 +15,8 @@ server.listen()
 router = Router()
 router.add_route("GET", "/", home)
 router.add_route("GET", "/posts", posts)
-router.add_route("GET", "/login", login)
+router.add_route("GET", "/login", show_login)
+router.add_route("POST", "/login", login)
 
 print("Server started on http://localhost:8080")
 

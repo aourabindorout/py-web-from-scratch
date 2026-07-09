@@ -24,3 +24,6 @@ def posts(request):
 
 def login(request):
     return render("login.html")
+
+def show_login(request):
+    return render("login.html")
