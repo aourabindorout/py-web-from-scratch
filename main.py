@@ -3,7 +3,8 @@ import traceback
 
 from controllers.login_controller import login, show_login
 from controllers.page_controller import home
-from controllers.post_controller import posts, show_post
+from controllers.post_controller import create_new_post, new_post, posts, show_post
+from database.db import init_db
 from web.parser import parse_request
 from web.response import Response
 from web.router import Router
@@ -12,9 +13,12 @@ from web.serializer import serialize_response
 router = Router()
 router.add_route("GET", "/", home)
 router.add_route("GET", "/posts", posts)
+router.add_route("GET", "/posts/new", new_post)
+router.add_route("POST", "/posts/new", create_new_post)
 router.add_route("GET", "/posts/{id}", show_post)
 router.add_route("GET", "/login", show_login)
 router.add_route("POST", "/login", login)
+
 
 
 def receive_request(client):
@@ -63,6 +67,7 @@ def receive_request(client):
 
 
 def run_server(host="localhost", port=8080):
+    init_db()
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((host, port))

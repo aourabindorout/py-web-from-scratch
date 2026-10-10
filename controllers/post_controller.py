@@ -1,6 +1,7 @@
-from database.repository import get_all_posts, get_post
+from database.repository import create_post, get_all_posts, get_post
 from utils.render import render
 from web.response import Response
+
 
 
 def posts(request):
@@ -52,4 +53,32 @@ def show_post(request):
             "body": post.get("body", "")
         }
     )
+
+
+def new_post(request):
+    return render("new_post.html", {"error": ""})
+
+
+def create_new_post(request):
+    title = request.form.get("title", "").strip()
+    body = request.form.get("body", "").strip()
+
+    if not title or not body:
+        return render(
+            "new_post.html",
+            {
+                "error": '<div class="alert alert-error">Title and content cannot be empty.</div>'
+            }
+        )
+
+    create_post(title, body)
+
+    return Response(
+        status_code=302,
+        reason="Found",
+        headers={
+            "Location": "/posts"
+        }
+    )
+
 

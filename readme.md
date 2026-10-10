@@ -65,10 +65,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Dynamic route parameters
 ✅ Query parameter parsing
 ✅ Static file serving
+✅ SQLite integration & schema persistence
 
 ## Planned Roadmap
 
-□ SQLite integration
 □ ORM (minimal)
 □ Session management
 □ Authentication
@@ -92,11 +92,12 @@ The purpose of this project is to understand each of these layers by implementin
 │   ├── post_controller.py
 │   └── login_controller.py
 ├── database/
+│   ├── db.py
 │   └── repository.py
 ├── utils/
 │   ├── form_parser.py
 │   ├── query_parser.py
-│   ├── render.py
+│   └── render.py
 │   └── template.py
 ├── static/
 │   ├── style.css
@@ -105,6 +106,7 @@ The purpose of this project is to understand each of these layers by implementin
     ├── home.html
     ├── posts.html
     ├── post.html
+    ├── new_post.html
     ├── login.html
     └── welcome.html
 ```

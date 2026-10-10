@@ -1,37 +1,42 @@
-users = {
-    "admin": {
-        "password": "admin123"
-    },
-    "john": {
-        "password": "john123"
-    }
-}
-
-
-posts = [
-    {
-        "id": 1,
-        "title": "Learning Python",
-        "body": "Python is a versatile programming language with a clean, readable syntax."
-    },
-    {
-        "id": 2,
-        "title": "Building My Own Web Framework",
-        "body": "Building web frameworks from scratch helps you understand sockets, HTTP protocols, and routing."
-    }
-]
+from database.db import get_connection
 
 
 def get_user(username):
-    return users.get(username)
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, username, password FROM users WHERE username = ?", (username,))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return dict(row)
+    return None
 
 
 def get_all_posts():
-    return posts
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, title, body FROM posts ORDER BY id DESC")
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
 
 
 def get_post(post_id):
-    for post in posts:
-        if str(post["id"]) == str(post_id):
-            return post
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, title, body FROM posts WHERE id = ?", (post_id,))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return dict(row)
     return None
+
+
+def create_post(title, body):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO posts (title, body) VALUES (?, ?)", (title, body))
+    conn.commit()
+    new_id = cursor.lastrowid
+    conn.close()
+    return new_id
