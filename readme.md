@@ -45,7 +45,7 @@ The purpose of this project is to understand each of these layers by implementin
 * Integrate a database
 * Build a complete blog application without using an existing web framework
 
-##Current Progress
+## Current Progress
 
 ✅ TCP socket server
 ✅ Browser-to-server communication
@@ -61,10 +61,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Minimal template engine
 ✅ Render helper
 ✅ In-memory repository layer
+✅ Forms and POST requests
 
-##Planned Roadmap
+## Planned Roadmap
 
-□ Forms and POST requests
 □ Dynamic route parameters
 □ Query parameter parsing
 □ Static file serving
@@ -75,7 +75,6 @@ The purpose of this project is to understand each of these layers by implementin
 □ Authorization
 □ JWT authentication
 □ Production-ready project structure
-* Production-ready project structure
 
 ## Repository Structure
 

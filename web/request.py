@@ -4,14 +4,14 @@ class Request:
         self,
         method,
         path,
-        version,
-        headers,
-        body,
-        form
+        version="HTTP/1.1",
+        headers=None,
+        body="",
+        form=None
     ):
         self.method = method
         self.path = path
         self.version = version
-        self.headers = headers
+        self.headers = headers or {}
         self.body = body
         self.form = form or {}
