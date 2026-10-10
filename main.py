@@ -37,7 +37,7 @@ def run_server(host="localhost", port=8080):
         response = router.resolve(request)
         raw_response = serialize_response(response)
 
-        client.send(raw_response.encode())
+        client.send(raw_response)
         client.close()
 
 

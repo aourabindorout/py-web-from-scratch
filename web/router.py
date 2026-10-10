@@ -1,13 +1,48 @@
+import mimetypes
+import os
+
 from web.response import Response
 
 
 class Router:
 
-    def __init__(self):
+    def __init__(self, static_dir="static", static_prefix="/static"):
         self.routes = []
+        self.static_dir = os.path.abspath(static_dir)
+        self.static_prefix = static_prefix.rstrip("/")
 
     def add_route(self, method, path, handler):
         self.routes.append((method, path, handler))
+
+    def _serve_static(self, request_path):
+        rel_path = request_path[len(self.static_prefix):].lstrip("/")
+        file_path = os.path.abspath(os.path.join(self.static_dir, rel_path))
+
+        # Security: Prevent directory traversal outside static_dir
+        if not file_path.startswith(self.static_dir) or not os.path.isfile(file_path):
+            return Response(
+                body="404 Not Found",
+                status_code=404,
+                reason="Not Found",
+                headers={
+                    "Content-Type": "text/plain"
+                }
+            )
+
+        content_type, _ = mimetypes.guess_type(file_path)
+        content_type = content_type or "application/octet-stream"
+
+        with open(file_path, "rb") as f:
+            content = f.read()
+
+        return Response(
+            body=content,
+            status_code=200,
+            reason="OK",
+            headers={
+                "Content-Type": content_type
+            }
+        )
 
     def _match_path(self, route_path, request_path):
         route_segments = [s for s in route_path.strip("/").split("/") if s]
@@ -27,6 +62,9 @@ class Router:
         return True, params
 
     def resolve(self, request):
+        if request.method == "GET" and request.path.startswith(self.static_prefix + "/"):
+            return self._serve_static(request.path)
+
         for method, path, handler in self.routes:
             if method != request.method:
                 continue

@@ -1,41 +1,54 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - My Blog</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/theme.js" defer></script>
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <a href="/" class="site-title">PyBlog</a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/posts">Posts</a>
+                <a href="/login">Login</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
+            </nav>
+        </header>
 
-    <h1>Login</h1>
+        <main class="card" style="max-width: 420px; margin: 2rem auto;">
+            <h1>Account Login</h1>
+            <p style="margin-bottom: 1.5rem;">Enter your credentials to sign in.</p>
 
-    <form action="/login" method="POST">
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                        id="username"
+                        type="text"
+                        name="username"
+                        placeholder="e.g. admin or john"
+                        required>
+                </div>
 
-        <input
-            type="text"
-            name="username"
-            placeholder="Username">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required>
+                </div>
 
-        <br><br>
-
-        <input
-            type="password"
-            name="password"
-            placeholder="Password">
-
-        <br><br>
-
-        <button type="submit">
-            Login
-        </button>
-
-    </form>
-
-    <br>
-
-    <a href="/">Home</a>
-
+                <button type="submit" style="width: 100%; margin-top: 0.5rem;">
+                    Sign In
+                </button>
+            </form>
+        </main>
+    </div>
 </body>
-
 </html>

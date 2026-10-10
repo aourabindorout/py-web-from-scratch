@@ -1,26 +1,19 @@
 def serialize_response(response):
-
-    lines = []
-
-    # Status line
-    lines.append(
-        f"{response.version} {response.status_code} {response.reason}"
+    body_bytes = (
+        response.body.encode("utf-8")
+        if isinstance(response.body, str)
+        else response.body
     )
 
-    # Automatically add Content-Length if missing
     if "Content-Length" not in response.headers:
-        response.headers["Content-Length"] = str(
-            len(response.body.encode())
-        )
+        response.headers["Content-Length"] = str(len(body_bytes))
 
-    # Write headers
+    header_lines = [
+        f"{response.version} {response.status_code} {response.reason}"
+    ]
     for key, value in response.headers.items():
-        lines.append(f"{key}: {value}")
+        header_lines.append(f"{key}: {value}")
 
-    # Blank line between headers and body
-    lines.append("")
+    header_bytes = ("\r\n".join(header_lines) + "\r\n\r\n").encode("utf-8")
 
-    # Body
-    lines.append(response.body)
-
-    return "\r\n".join(lines)
+    return header_bytes + body_bytes

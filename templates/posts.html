@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-    <title>Posts</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts - My Blog</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/theme.js" defer></script>
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <a href="/" class="site-title">PyBlog</a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/posts">Posts</a>
+                <a href="/login">Login</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
+            </nav>
+        </header>
 
-    <h1>All Blog Posts</h1>
+        <main>
+            <h1>All Blog Posts</h1>
 
-    <form action="/posts" method="GET">
-        <input
-            type="text"
-            name="search"
-            placeholder="Search posts..."
-            value="{{ search_query }}">
-        <button type="submit">Search</button>
-        <a href="/posts">Clear</a>
-    </form>
+            <form action="/posts" method="GET" class="search-form">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search posts by title or content..."
+                    value="{{ search_query }}">
+                <button type="submit">Search</button>
+                <a href="/posts" class="btn-clear">Clear</a>
+            </form>
 
-    <br>
-
-    <ul>
-        {{ posts }}
-    </ul>
-
-    <a href="/">Home</a>
-
+            <ul class="post-list">
+                {{ posts }}
+            </ul>
+        </main>
+    </div>
 </body>
-
 </html>

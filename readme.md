@@ -64,10 +64,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Forms and POST requests
 ✅ Dynamic route parameters
 ✅ Query parameter parsing
+✅ Static file serving
 
 ## Planned Roadmap
 
-□ Static file serving
 □ SQLite integration
 □ ORM (minimal)
 □ Session management
@@ -98,6 +98,9 @@ The purpose of this project is to understand each of these layers by implementin
 │   ├── query_parser.py
 │   ├── render.py
 │   └── template.py
+├── static/
+│   ├── style.css
+│   └── theme.js
 └── templates/
     ├── home.html
     ├── posts.html
