@@ -105,7 +105,8 @@ The purpose of this project is to understand each of these layers by implementin
     ├── home.html
     ├── posts.html
     ├── post.html
-    └── login.html
+    ├── login.html
+    └── welcome.html
 ```
 
 ## Philosophy

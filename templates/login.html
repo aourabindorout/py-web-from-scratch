@@ -23,6 +23,8 @@
             <h1>Account Login</h1>
             <p style="margin-bottom: 1.5rem;">Enter your credentials to sign in.</p>
 
+            {{ error }}
+
             <form action="/login" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>

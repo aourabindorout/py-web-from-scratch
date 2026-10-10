@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome {{ username }} - PyBlog</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/theme.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="site-title">PyBlog</a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/posts">Posts</a>
+                <a href="/login">Login</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
+            </nav>
+        </header>
+
+        <main class="card" style="text-align: center; padding: 3rem 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">👋</div>
+            <h1>Welcome, {{ username }}!</h1>
+            <p style="font-size: 1.15rem; margin-bottom: 2rem;">
+                You have successfully authenticated with your account.
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+                <a href="/posts" class="btn">View All Posts</a>
+                <a href="/" class="btn" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-primary);">Home</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

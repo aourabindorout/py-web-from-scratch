@@ -1,38 +1,36 @@
 from database.repository import get_user
 from utils.render import render
-from web.response import Response
 
 
 def show_login(request):
-    return render("login.html")
+    return render("login.html", {"error": ""})
 
 
 def login(request):
-
-    username = request.form.get("username")
-    password = request.form.get("password")
+    username = request.form.get("username", "")
+    password = request.form.get("password", "")
 
     user = get_user(username)
 
     if user is None:
-        return Response(
-            body="User not found",
-            headers={
-                "Content-Type": "text/plain"
+        return render(
+            "login.html",
+            {
+                "error": '<div class="alert alert-error">User not found</div>'
             }
         )
 
     if user["password"] != password:
-        return Response(
-            body="Incorrect password",
-            headers={
-                "Content-Type": "text/plain"
+        return render(
+            "login.html",
+            {
+                "error": '<div class="alert alert-error">Incorrect password</div>'
             }
         )
 
-    return Response(
-        body=f"Welcome {username}",
-        headers={
-            "Content-Type": "text/plain"
+    return render(
+        "welcome.html",
+        {
+            "username": username
         }
     )
