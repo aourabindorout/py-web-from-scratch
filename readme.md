@@ -79,17 +79,29 @@ The purpose of this project is to understand each of these layers by implementin
 ## Repository Structure
 
 ```text
-blog/
-│
+.
 ├── main.py
-│
 ├── web/
 │   ├── parser.py
 │   ├── request.py
 │   ├── response.py
+│   ├── router.py
 │   └── serializer.py
-│
-└── utils/
+├── controllers/
+│   ├── page_controller.py
+│   ├── post_controller.py
+│   └── login_controller.py
+├── database/
+│   └── repository.py
+├── utils/
+│   ├── form_parser.py
+│   ├── render.py
+│   └── template.py
+└── templates/
+    ├── home.html
+    ├── posts.html
+    ├── post.html
+    └── login.html
 ```
 
 ## Philosophy

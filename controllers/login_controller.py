@@ -1,5 +1,10 @@
 from database.repository import get_user
+from utils.render import render
 from web.response import Response
+
+
+def show_login(request):
+    return render("login.html")
 
 
 def login(request):

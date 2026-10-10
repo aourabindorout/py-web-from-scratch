@@ -1,7 +1,8 @@
 import socket
 
-from controllers.login_controller import login
-from controllers.page_controller import home, posts, show_login, show_post
+from controllers.login_controller import login, show_login
+from controllers.page_controller import home
+from controllers.post_controller import posts, show_post
 from web.parser import parse_request
 from web.router import Router
 from web.serializer import serialize_response
