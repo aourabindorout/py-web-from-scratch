@@ -62,10 +62,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Render helper
 ✅ In-memory repository layer
 ✅ Forms and POST requests
+✅ Dynamic route parameters
 
 ## Planned Roadmap
 
-□ Dynamic route parameters
 □ Query parameter parsing
 □ Static file serving
 □ SQLite integration

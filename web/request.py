@@ -7,7 +7,8 @@ class Request:
         version="HTTP/1.1",
         headers=None,
         body="",
-        form=None
+        form=None,
+        params=None
     ):
         self.method = method
         self.path = path
@@ -15,3 +16,4 @@ class Request:
         self.headers = headers or {}
         self.body = body
         self.form = form or {}
+        self.params = params or {}

@@ -1,7 +1,7 @@
 import socket
 
 from controllers.login_controller import login
-from controllers.page_controller import home, posts, show_login
+from controllers.page_controller import home, posts, show_login, show_post
 from web.parser import parse_request
 from web.router import Router
 from web.serializer import serialize_response
@@ -9,6 +9,7 @@ from web.serializer import serialize_response
 router = Router()
 router.add_route("GET", "/", home)
 router.add_route("GET", "/posts", posts)
+router.add_route("GET", "/posts/{id}", show_post)
 router.add_route("GET", "/login", show_login)
 router.add_route("POST", "/login", login)
 
