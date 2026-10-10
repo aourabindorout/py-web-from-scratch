@@ -25,7 +25,7 @@ def run_server(host="localhost", port=8080):
 
     while True:
         client, addr = server.accept()
-        raw_request = client.recv(4096).decode()
+        raw_request = client.recv(4096).decode("utf-8", errors="replace")
 
         if not raw_request:
             client.close()

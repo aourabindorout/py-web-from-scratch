@@ -1,4 +1,5 @@
 from utils.form_parser import parse_form
+from utils.query_parser import parse_query
 from web.request import Request
 
 
@@ -12,8 +13,15 @@ def parse_request(raw_request):
 
     parts = lines[0].split() if lines else []
     method = parts[0] if len(parts) > 0 else "GET"
-    path = parts[1] if len(parts) > 1 else "/"
+    raw_target = parts[1] if len(parts) > 1 else "/"
     version = parts[2] if len(parts) > 2 else "HTTP/1.1"
+
+    if "?" in raw_target:
+        path, query_string = raw_target.split("?", 1)
+    else:
+        path, query_string = raw_target, ""
+
+    query = parse_query(query_string)
 
     headers = {}
     for line in lines[1:]:
@@ -22,7 +30,8 @@ def parse_request(raw_request):
             headers[key] = value
 
     form = {}
-    if headers.get("Content-Type") == "application/x-www-form-urlencoded":
+    content_type = headers.get("Content-Type", "")
+    if content_type.startswith("application/x-www-form-urlencoded"):
         form = parse_form(body)
 
     return Request(
@@ -31,5 +40,6 @@ def parse_request(raw_request):
         version=version,
         headers=headers,
         body=body,
-        form=form
+        form=form,
+        query=query
     )

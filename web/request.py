@@ -8,7 +8,8 @@ class Request:
         headers=None,
         body="",
         form=None,
-        params=None
+        params=None,
+        query=None
     ):
         self.method = method
         self.path = path
@@ -17,3 +18,4 @@ class Request:
         self.body = body
         self.form = form or {}
         self.params = params or {}
+        self.query = query or {}

@@ -5,15 +5,28 @@ from web.response import Response
 
 def posts(request):
     all_posts = get_all_posts()
-    html = "".join(
-        f'<li><a href="/posts/{post["id"]}">{post["title"]}</a></li>'
-        for post in all_posts
-    )
+    search_query = request.query.get("search", "").strip()
+
+    if search_query:
+        all_posts = [
+            post for post in all_posts
+            if search_query.lower() in post["title"].lower()
+            or search_query.lower() in post.get("body", "").lower()
+        ]
+
+    if all_posts:
+        html = "".join(
+            f'<li><a href="/posts/{post["id"]}">{post["title"]}</a></li>'
+            for post in all_posts
+        )
+    else:
+        html = "<p>No posts found matching your search.</p>"
 
     return render(
         "posts.html",
         {
-            "posts": html
+            "posts": html,
+            "search_query": search_query
         }
     )
 

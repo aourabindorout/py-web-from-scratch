@@ -9,10 +9,9 @@ def render(template_name, context=None):
     context = context or {}
 
     for key, value in context.items():
-        html = html.replace(
-            "{{ " + key + " }}",
-            str(value)
-        )
+        val_str = str(value)
+        html = html.replace("{{ " + key + " }}", val_str)
+        html = html.replace("{{" + key + "}}", val_str)
 
     return Response(
         body=html,

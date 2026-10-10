@@ -10,6 +10,18 @@
 
     <h1>All Blog Posts</h1>
 
+    <form action="/posts" method="GET">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search posts..."
+            value="{{ search_query }}">
+        <button type="submit">Search</button>
+        <a href="/posts">Clear</a>
+    </form>
+
+    <br>
+
     <ul>
         {{ posts }}
     </ul>

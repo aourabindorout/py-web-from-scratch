@@ -63,10 +63,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ In-memory repository layer
 ✅ Forms and POST requests
 ✅ Dynamic route parameters
+✅ Query parameter parsing
 
 ## Planned Roadmap
 
-□ Query parameter parsing
 □ Static file serving
 □ SQLite integration
 □ ORM (minimal)
@@ -95,6 +95,7 @@ The purpose of this project is to understand each of these layers by implementin
 │   └── repository.py
 ├── utils/
 │   ├── form_parser.py
+│   ├── query_parser.py
 │   ├── render.py
 │   └── template.py
 └── templates/
