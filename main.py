@@ -1,9 +1,11 @@
 import socket
+import traceback
 
 from controllers.login_controller import login, show_login
 from controllers.page_controller import home
 from controllers.post_controller import posts, show_post
 from web.parser import parse_request
+from web.response import Response
 from web.router import Router
 from web.serializer import serialize_response
 
@@ -13,6 +15,51 @@ router.add_route("GET", "/posts", posts)
 router.add_route("GET", "/posts/{id}", show_post)
 router.add_route("GET", "/login", show_login)
 router.add_route("POST", "/login", login)
+
+
+def receive_request(client):
+    client.settimeout(5.0)
+    buffer = bytearray()
+
+    try:
+        while b"\r\n\r\n" not in buffer:
+            chunk = client.recv(4096)
+            if not chunk:
+                break
+            buffer.extend(chunk)
+
+        if not buffer:
+            return ""
+
+        header_bytes, sep, body_bytes = buffer.partition(b"\r\n\r\n")
+        if not sep:
+            return header_bytes.decode("utf-8", errors="replace")
+
+        # Parse Content-Length to receive the full body if larger than initial buffer
+        content_length = 0
+        header_text = header_bytes.decode("utf-8", errors="replace")
+        for line in header_text.split("\r\n"):
+            if ":" in line:
+                key, val = line.split(":", 1)
+                if key.strip().lower() == "content-length":
+                    try:
+                        content_length = int(val.strip())
+                    except ValueError:
+                        content_length = 0
+                    break
+
+        while len(body_bytes) < content_length:
+            remaining = content_length - len(body_bytes)
+            chunk = client.recv(min(4096, remaining))
+            if not chunk:
+                break
+            body_bytes.extend(chunk)
+
+        return (header_bytes + sep + body_bytes).decode("utf-8", errors="replace")
+    except (socket.timeout, OSError):
+        if buffer:
+            return buffer.decode("utf-8", errors="replace")
+        return ""
 
 
 def run_server(host="localhost", port=8080):
@@ -25,20 +72,31 @@ def run_server(host="localhost", port=8080):
 
     while True:
         client, addr = server.accept()
-        raw_request = client.recv(4096).decode("utf-8", errors="replace")
+        try:
+            raw_request = receive_request(client)
+            if not raw_request:
+                continue
 
-        if not raw_request:
+            request = parse_request(raw_request)
+            print(f"{request.method} {request.path}")
+
+            try:
+                response = router.resolve(request)
+            except Exception:
+                traceback.print_exc()
+                response = Response(
+                    body="500 Internal Server Error",
+                    status_code=500,
+                    reason="Internal Server Error",
+                    headers={"Content-Type": "text/plain"}
+                )
+
+            raw_response = serialize_response(response)
+            client.sendall(raw_response)
+        except (ConnectionResetError, BrokenPipeError):
+            pass
+        finally:
             client.close()
-            continue
-
-        request = parse_request(raw_request)
-        print(f"{request.method} {request.path}")
-
-        response = router.resolve(request)
-        raw_response = serialize_response(response)
-
-        client.send(raw_response)
-        client.close()
 
 
 if __name__ == "__main__":

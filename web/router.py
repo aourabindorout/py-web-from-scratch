@@ -8,7 +8,11 @@ class Router:
 
     def __init__(self, static_dir="static", static_prefix="/static"):
         self.routes = []
-        self.static_dir = os.path.abspath(static_dir)
+        if not os.path.isabs(static_dir):
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            self.static_dir = os.path.join(base_dir, static_dir)
+        else:
+            self.static_dir = os.path.abspath(static_dir)
         self.static_prefix = static_prefix.rstrip("/")
 
     def add_route(self, method, path, handler):
@@ -19,7 +23,7 @@ class Router:
         file_path = os.path.abspath(os.path.join(self.static_dir, rel_path))
 
         # Security: Prevent directory traversal outside static_dir
-        if not file_path.startswith(self.static_dir) or not os.path.isfile(file_path):
+        if not file_path.startswith(self.static_dir + os.sep) or not os.path.isfile(file_path):
             return Response(
                 body="404 Not Found",
                 status_code=404,
