@@ -68,10 +68,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ SQLite integration & schema persistence
 ✅ Minimal ORM (ActiveRecord pattern)
 ✅ Session management & cookies (HttpOnly tokens)
+✅ Authentication (PBKDF2-SHA256 password hashing & registration)
 
 ## Planned Roadmap
 
-□ Authentication
 □ Authorization
 □ JWT authentication
 □ Production-ready project structure
@@ -100,10 +100,9 @@ The purpose of this project is to understand each of these layers by implementin
 │   ├── form_parser.py
 │   ├── query_parser.py
 │   ├── render.py
+│   ├── security.py
 │   ├── session.py
 │   └── template.py
-
-
 ├── static/
 │   ├── style.css
 │   └── theme.js
@@ -113,6 +112,7 @@ The purpose of this project is to understand each of these layers by implementin
     ├── post.html
     ├── new_post.html
     ├── login.html
+    ├── register.html
     └── welcome.html
 ```
 

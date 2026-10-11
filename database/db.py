@@ -44,8 +44,10 @@ def init_db():
     # Seed initial sample data if tables are empty
     cursor.execute("SELECT COUNT(*) FROM users")
     if cursor.fetchone()[0] == 0:
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("admin", "admin123"))
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("john", "john123"))
+        from utils.security import hash_password
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("admin", hash_password("admin123")))
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("john", hash_password("john123")))
+
 
     cursor.execute("SELECT COUNT(*) FROM posts")
     if cursor.fetchone()[0] == 0:

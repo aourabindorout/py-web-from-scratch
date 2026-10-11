@@ -1,7 +1,7 @@
 import socket
 import traceback
 
-from controllers.login_controller import login, logout, show_login
+from controllers.login_controller import login, logout, register, show_login, show_register
 from controllers.page_controller import home
 from controllers.post_controller import create_new_post, new_post, posts, show_post
 from database.db import init_db
@@ -19,7 +19,10 @@ router.add_route("POST", "/posts/new", create_new_post)
 router.add_route("GET", "/posts/{id}", show_post)
 router.add_route("GET", "/login", show_login)
 router.add_route("POST", "/login", login)
+router.add_route("GET", "/register", show_register)
+router.add_route("POST", "/register", register)
 router.add_route("GET", "/logout", logout)
+
 
 
 
