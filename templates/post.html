@@ -13,19 +13,19 @@
             <a href="/" class="site-title">PyBlog</a>
             <nav>
                 <a href="/">Home</a>
-                <a href="/posts">Posts</a>
-                <a href="/posts/new">Write</a>
+                <a href="/posts/new">Write Post</a>
                 {{ auth_nav }}
                 <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
             </nav>
         </header>
 
         <main class="card">
-            <h1>{{ title }}</h1>
+            <h1 style="margin-bottom: 0.25rem;">{{ title }}</h1>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">Published by {{ author }}</p>
             <p style="font-size: 1.15rem; line-height: 1.8; margin-top: 1rem;">{{ body }}</p>
 
             <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
-                <a href="/posts">&larr; Back to all posts</a>
+                <a href="/">&larr; Back to all posts</a>
             </div>
         </main>
     </div>

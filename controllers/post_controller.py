@@ -1,8 +1,7 @@
 from database.models import Post
+from utils.auth import login_required
 from utils.render import render
 from web.response import Response
-
-
 
 
 def posts(request):
@@ -18,7 +17,12 @@ def posts(request):
 
     if all_posts:
         html = "".join(
-            f'<li><a href="/posts/{post.id}">{post.title}</a></li>'
+            f'<li>'
+            f'<a href="/posts/{post.id}">{post.title}</a>'
+            f'<div class="post-meta" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.35rem;">'
+            f'By {post.get("author_name") or "Community"}'
+            f'</div>'
+            f'</li>'
             for post in all_posts
         )
     else:
@@ -52,16 +56,19 @@ def show_post(request):
         "post.html",
         {
             "title": post.title,
-            "body": post.get("body", "")
+            "body": post.get("body", ""),
+            "author": post.get("author_name") or "Community"
         },
         request=request
     )
 
 
+@login_required
 def new_post(request):
     return render("new_post.html", {"error": ""}, request=request)
 
 
+@login_required
 def create_new_post(request):
     title = request.form.get("title", "").strip()
     body = request.form.get("body", "").strip()
@@ -75,16 +82,18 @@ def create_new_post(request):
             request=request
         )
 
-
-    Post.create(title=title, body=body)
+    author_name = getattr(request.user, "name", None) or request.user.username
+    Post.create(
+        title=title,
+        body=body,
+        user_id=request.user.id,
+        author_name=author_name
+    )
 
     return Response(
         status_code=302,
         reason="Found",
         headers={
-            "Location": "/posts"
+            "Location": "/"
         }
     )
-
-
-

@@ -69,10 +69,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Minimal ORM (ActiveRecord pattern)
 ✅ Session management & cookies (HttpOnly tokens)
 ✅ Authentication (PBKDF2-SHA256 password hashing & registration)
+✅ Authorization (Route guard @login_required & protected post creation)
 
 ## Planned Roadmap
 
-□ Authorization
 □ JWT authentication
 □ Production-ready project structure
 
@@ -97,12 +97,14 @@ The purpose of this project is to understand each of these layers by implementin
 │   ├── models.py
 │   └── repository.py
 ├── utils/
+│   ├── auth.py
 │   ├── form_parser.py
 │   ├── query_parser.py
 │   ├── render.py
 │   ├── security.py
 │   ├── session.py
 │   └── template.py
+
 ├── static/
 │   ├── style.css
 │   └── theme.js

@@ -8,12 +8,14 @@ from web.response import Response
 def show_login(request):
     if request.user:
         return Response(status_code=302, reason="Found", headers={"Location": "/"})
-    return render("login.html", {"error": ""}, request=request)
+    next_url = request.query.get("next", "")
+    return render("login.html", {"error": "", "next": next_url}, request=request)
 
 
 def login(request):
-    username = request.form.get("username", "")
+    username = request.form.get("username", "").strip()
     password = request.form.get("password", "")
+    next_url = request.form.get("next") or request.query.get("next") or "/"
 
     user = User.first(username=username)
 
@@ -21,7 +23,8 @@ def login(request):
         return render(
             "login.html",
             {
-                "error": '<div class="alert alert-error">User not found</div>'
+                "error": '<div class="alert alert-error">User not found</div>',
+                "next": next_url
             },
             request=request
         )
@@ -30,17 +33,19 @@ def login(request):
         return render(
             "login.html",
             {
-                "error": '<div class="alert alert-error">Incorrect password</div>'
+                "error": '<div class="alert alert-error">Incorrect password</div>',
+                "next": next_url
             },
             request=request
         )
 
     # Authentication successful: create session & set cookie
     token = create_session(user.id)
+    target = next_url if next_url.startswith("/") else "/"
     response = Response(
         status_code=302,
         reason="Found",
-        headers={"Location": "/"}
+        headers={"Location": target}
     )
     response.set_cookie("session_id", token, path="/", http_only=True)
     return response
@@ -53,14 +58,22 @@ def show_register(request):
 
 
 def register(request):
+    name = request.form.get("name", "").strip()
     username = request.form.get("username", "").strip()
     password = request.form.get("password", "")
     confirm_password = request.form.get("confirm_password", "")
 
-    if not username or not password:
+    if not name or not username or not password:
         return render(
             "register.html",
-            {"error": '<div class="alert alert-error">Username and password are required.</div>'},
+            {"error": '<div class="alert alert-error">All fields are required.</div>'},
+            request=request
+        )
+
+    if len(name) < 2:
+        return render(
+            "register.html",
+            {"error": '<div class="alert alert-error">Name must be at least 2 characters.</div>'},
             request=request
         )
 
@@ -96,7 +109,7 @@ def register(request):
 
     # Hash password with PBKDF2 + salt and create user
     hashed_password = hash_password(password)
-    user = User.create(username=username, password=hashed_password)
+    user = User.create(name=name, username=username, password=hashed_password)
 
     # Automatically log the user in with a new session
     token = create_session(user.id)
@@ -107,6 +120,7 @@ def register(request):
     )
     response.set_cookie("session_id", token, path="/", http_only=True)
     return response
+
 
 
 def logout(request):

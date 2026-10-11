@@ -12,9 +12,11 @@ def render(template_name, context=None, request=None):
     if "auth_nav" not in context:
         user = getattr(request, "user", None) if request else None
         if user:
-            context["auth_nav"] = f'<span style="color: var(--text-secondary); margin-right: 0.5rem;">👤 {user.username}</span><a href="/logout">Logout</a>'
+            display_name = getattr(user, "name", None) or user.username
+            context["auth_nav"] = f'<span style="color: var(--text-secondary); margin-right: 0.5rem;">👤 {display_name}</span><a href="/logout">Logout</a>'
         else:
-            context["auth_nav"] = '<a href="/login">Login</a>'
+            context["auth_nav"] = '<a href="/login">Login</a><a href="/register">Register</a>'
+
 
     user = getattr(request, "user", None) if request else None
     if "current_user" not in context:
