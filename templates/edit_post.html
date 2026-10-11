@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post - My Blog</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/theme.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="site-title">PyBlog</a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/posts/new">Write Post</a>
+                {{ auth_nav }}
+                <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
+            </nav>
+        </header>
+
+        <main class="card" style="max-width: 680px; margin: 2rem auto;">
+            <h1>Edit Post</h1>
+            <p style="margin-bottom: 1.5rem;">Update your article details.</p>
+
+            {{ error }}
+
+            <form action="/posts/{{ id }}/edit" method="POST">
+                <div class="form-group">
+                    <label for="title">Post Title</label>
+                    <input
+                        id="title"
+                        type="text"
+                        name="title"
+                        value="{{ title }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="body">Content</label>
+                    <textarea
+                        id="body"
+                        name="body"
+                        rows="8"
+                        style="width: 100%; padding: 0.75rem; border-radius: 6px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary); font-family: inherit; font-size: 1rem; resize: vertical;"
+                        required>{{ body }}</textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button type="submit">Save Changes</button>
+                    <a href="/posts/{{ id }}" class="btn" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-primary);">Cancel</a>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+</html>
+

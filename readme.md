@@ -69,7 +69,7 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Minimal ORM (ActiveRecord pattern)
 ✅ Session management & cookies (HttpOnly tokens)
 ✅ Authentication (PBKDF2-SHA256 password hashing & registration)
-✅ Authorization (Route guard @login_required & protected post creation)
+✅ Authorization & permissions (Resource ownership: author-only edit & delete with 403 Forbidden)
 
 ## Planned Roadmap
 
@@ -113,9 +113,11 @@ The purpose of this project is to understand each of these layers by implementin
     ├── posts.html
     ├── post.html
     ├── new_post.html
+    ├── edit_post.html
     ├── login.html
     ├── register.html
     └── welcome.html
+
 ```
 
 ## Philosophy
