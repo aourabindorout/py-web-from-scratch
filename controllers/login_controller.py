@@ -1,4 +1,4 @@
-from database.repository import get_user
+from database.models import User
 from utils.render import render
 
 
@@ -10,7 +10,7 @@ def login(request):
     username = request.form.get("username", "")
     password = request.form.get("password", "")
 
-    user = get_user(username)
+    user = User.first(username=username)
 
     if user is None:
         return render(
@@ -20,7 +20,7 @@ def login(request):
             }
         )
 
-    if user["password"] != password:
+    if user.password != password:
         return render(
             "login.html",
             {

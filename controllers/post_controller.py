@@ -1,23 +1,24 @@
-from database.repository import create_post, get_all_posts, get_post
+from database.models import Post
 from utils.render import render
 from web.response import Response
 
 
 
+
 def posts(request):
-    all_posts = get_all_posts()
+    all_posts = Post.all()
     search_query = request.query.get("search", "").strip()
 
     if search_query:
         all_posts = [
             post for post in all_posts
-            if search_query.lower() in post["title"].lower()
+            if search_query.lower() in post.title.lower()
             or search_query.lower() in post.get("body", "").lower()
         ]
 
     if all_posts:
         html = "".join(
-            f'<li><a href="/posts/{post["id"]}">{post["title"]}</a></li>'
+            f'<li><a href="/posts/{post.id}">{post.title}</a></li>'
             for post in all_posts
         )
     else:
@@ -34,7 +35,7 @@ def posts(request):
 
 def show_post(request):
     post_id = request.params.get("id")
-    post = get_post(post_id)
+    post = Post.find(post_id)
 
     if post is None:
         return Response(
@@ -49,7 +50,7 @@ def show_post(request):
     return render(
         "post.html",
         {
-            "title": post["title"],
+            "title": post.title,
             "body": post.get("body", "")
         }
     )
@@ -71,7 +72,7 @@ def create_new_post(request):
             }
         )
 
-    create_post(title, body)
+    Post.create(title=title, body=body)
 
     return Response(
         status_code=302,
@@ -80,5 +81,6 @@ def create_new_post(request):
             "Location": "/posts"
         }
     )
+
 
 

@@ -1,42 +1,18 @@
-from database.db import get_connection
+from database.models import Post, User
 
 
 def get_user(username):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, username, password FROM users WHERE username = ?", (username,))
-    row = cursor.fetchone()
-    conn.close()
-    if row:
-        return dict(row)
-    return None
+    return User.first(username=username)
 
 
 def get_all_posts():
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, title, body FROM posts ORDER BY id DESC")
-    rows = cursor.fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
+    return Post.all()
 
 
 def get_post(post_id):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, title, body FROM posts WHERE id = ?", (post_id,))
-    row = cursor.fetchone()
-    conn.close()
-    if row:
-        return dict(row)
-    return None
+    return Post.find(post_id)
 
 
 def create_post(title, body):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO posts (title, body) VALUES (?, ?)", (title, body))
-    conn.commit()
-    new_id = cursor.lastrowid
-    conn.close()
-    return new_id
+    post = Post.create(title=title, body=body)
+    return post.id

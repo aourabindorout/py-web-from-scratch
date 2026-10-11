@@ -66,10 +66,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Query parameter parsing
 ✅ Static file serving
 ✅ SQLite integration & schema persistence
+✅ Minimal ORM (ActiveRecord pattern)
 
 ## Planned Roadmap
 
-□ ORM (minimal)
 □ Session management
 □ Authentication
 □ Authorization
@@ -93,12 +93,15 @@ The purpose of this project is to understand each of these layers by implementin
 │   └── login_controller.py
 ├── database/
 │   ├── db.py
+│   ├── model.py
+│   ├── models.py
 │   └── repository.py
 ├── utils/
 │   ├── form_parser.py
 │   ├── query_parser.py
 │   └── render.py
 │   └── template.py
+
 ├── static/
 │   ├── style.css
 │   └── theme.js
