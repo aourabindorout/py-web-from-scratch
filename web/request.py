@@ -9,7 +9,9 @@ class Request:
         body="",
         form=None,
         params=None,
-        query=None
+        query=None,
+        cookies=None,
+        user=None
     ):
         self.method = method
         self.path = path
@@ -19,3 +21,5 @@ class Request:
         self.form = form or {}
         self.params = params or {}
         self.query = query or {}
+        self.cookies = cookies or {}
+        self.user = user

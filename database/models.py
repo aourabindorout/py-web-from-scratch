@@ -8,3 +8,8 @@ class User(Model):
 class Post(Model):
     table_name = "posts"
 
+
+class Session(Model):
+    table_name = "sessions"
+
+

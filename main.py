@@ -1,10 +1,11 @@
 import socket
 import traceback
 
-from controllers.login_controller import login, show_login
+from controllers.login_controller import login, logout, show_login
 from controllers.page_controller import home
 from controllers.post_controller import create_new_post, new_post, posts, show_post
 from database.db import init_db
+from utils.session import get_user_by_session_id
 from web.parser import parse_request
 from web.response import Response
 from web.router import Router
@@ -18,6 +19,8 @@ router.add_route("POST", "/posts/new", create_new_post)
 router.add_route("GET", "/posts/{id}", show_post)
 router.add_route("GET", "/login", show_login)
 router.add_route("POST", "/login", login)
+router.add_route("GET", "/logout", logout)
+
 
 
 
@@ -83,7 +86,11 @@ def run_server(host="localhost", port=8080):
                 continue
 
             request = parse_request(raw_request)
-            print(f"{request.method} {request.path}")
+            session_id = request.cookies.get("session_id")
+            request.user = get_user_by_session_id(session_id) if session_id else None
+            user_label = f" [{request.user.username}]" if request.user else ""
+            print(f"{request.method} {request.path}{user_label}")
+
 
             try:
                 response = router.resolve(request)

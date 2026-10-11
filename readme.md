@@ -67,10 +67,10 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Static file serving
 ✅ SQLite integration & schema persistence
 ✅ Minimal ORM (ActiveRecord pattern)
+✅ Session management & cookies (HttpOnly tokens)
 
 ## Planned Roadmap
 
-□ Session management
 □ Authentication
 □ Authorization
 □ JWT authentication
@@ -99,8 +99,10 @@ The purpose of this project is to understand each of these layers by implementin
 ├── utils/
 │   ├── form_parser.py
 │   ├── query_parser.py
-│   └── render.py
+│   ├── render.py
+│   ├── session.py
 │   └── template.py
+
 
 ├── static/
 │   ├── style.css

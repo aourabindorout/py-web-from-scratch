@@ -30,9 +30,24 @@ def parse_request(raw_request):
             headers[key] = value
 
     form = {}
-    content_type = headers.get("Content-Type", "")
+    content_type = ""
+    cookie_header = ""
+    for k, v in headers.items():
+        k_lower = k.lower()
+        if k_lower == "content-type":
+            content_type = v
+        elif k_lower == "cookie":
+            cookie_header = v
+
     if content_type.startswith("application/x-www-form-urlencoded"):
         form = parse_form(body)
+
+    cookies = {}
+    if cookie_header:
+        for part in cookie_header.split(";"):
+            if "=" in part:
+                c_key, c_val = part.split("=", 1)
+                cookies[c_key.strip()] = c_val.strip()
 
     return Request(
         method=method,
@@ -41,5 +56,6 @@ def parse_request(raw_request):
         headers=headers,
         body=body,
         form=form,
-        query=query
+        query=query,
+        cookies=cookies
     )

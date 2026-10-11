@@ -29,7 +29,8 @@ def posts(request):
         {
             "posts": html,
             "search_query": search_query
-        }
+        },
+        request=request
     )
 
 
@@ -52,12 +53,13 @@ def show_post(request):
         {
             "title": post.title,
             "body": post.get("body", "")
-        }
+        },
+        request=request
     )
 
 
 def new_post(request):
-    return render("new_post.html", {"error": ""})
+    return render("new_post.html", {"error": ""}, request=request)
 
 
 def create_new_post(request):
@@ -69,8 +71,10 @@ def create_new_post(request):
             "new_post.html",
             {
                 "error": '<div class="alert alert-error">Title and content cannot be empty.</div>'
-            }
+            },
+            request=request
         )
+
 
     Post.create(title=title, body=body)
 
