@@ -1,32 +1,16 @@
+from utils.template import load_template, render_template
 from web.response import Response
-from utils.template import load_template
 
 
 def render(template_name, context=None, request=None):
-
-    html = load_template(template_name)
-
+    template_str = load_template(template_name)
     context = dict(context) if context else {}
 
-    # Automatically provide auth_nav context based on request.user
-    if "auth_nav" not in context:
-        user = getattr(request, "user", None) if request else None
-        if user:
-            display_name = getattr(user, "name", None) or user.username
-            context["auth_nav"] = f'<span style="color: var(--text-secondary); margin-right: 0.5rem;">👤 {display_name}</span><a href="/logout">Logout</a>'
-        else:
-            context["auth_nav"] = '<a href="/login">Login</a><a href="/register">Register</a>'
+    # Provide current authenticated user to all templates cleanly
+    if "user" not in context:
+        context["user"] = getattr(request, "user", None) if request else None
 
-
-    user = getattr(request, "user", None) if request else None
-    if "current_user" not in context:
-        context["current_user"] = user.username if user else ""
-
-    for key, value in context.items():
-        val_str = str(value)
-        html = html.replace("{{ " + key + " }}", val_str)
-        html = html.replace("{{" + key + "}}", val_str)
-
+    html = render_template(template_str, context)
     return Response(
         body=html,
         headers={

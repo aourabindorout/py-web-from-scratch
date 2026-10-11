@@ -15,23 +15,10 @@ def posts(request):
             or search_query.lower() in post.get("body", "").lower()
         ]
 
-    if all_posts:
-        html = "".join(
-            f'<li>'
-            f'<a href="/posts/{post.id}">{post.title}</a>'
-            f'<div class="post-meta" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.35rem;">'
-            f'By {post.get("author_name") or "Community"}'
-            f'</div>'
-            f'</li>'
-            for post in all_posts
-        )
-    else:
-        html = "<p>No posts found matching your search.</p>"
-
     return render(
         "posts.html",
         {
-            "posts": html,
+            "posts": all_posts,
             "search_query": search_query
         },
         request=request
@@ -52,26 +39,13 @@ def show_post(request):
             }
         )
 
-    is_author = request.user and str(post.get("user_id")) == str(request.user.id)
-    if is_author:
-        author_actions = (
-            f'<div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">'
-            f'<a href="/posts/{post.id}/edit" class="btn">Edit Post</a>'
-            f'<form action="/posts/{post.id}/delete" method="POST" style="margin: 0;" onsubmit="return confirm(\'Are you sure you want to delete this post?\');">'
-            f'<button type="submit" class="btn" style="background: #ef4444; border-color: #dc2626; color: #fff;">Delete Post</button>'
-            f'</form>'
-            f'</div>'
-        )
-    else:
-        author_actions = ""
+    is_author = bool(request.user and str(post.get("user_id")) == str(request.user.id))
 
     return render(
         "post.html",
         {
-            "title": post.title,
-            "body": post.get("body", ""),
-            "author": post.get("author_name") or "Community",
-            "author_actions": author_actions
+            "post": post,
+            "is_author": is_author
         },
         request=request
     )
@@ -79,7 +53,7 @@ def show_post(request):
 
 @login_required
 def new_post(request):
-    return render("new_post.html", {"error": ""}, request=request)
+    return render("new_post.html", {"title": "", "body": "", "error": ""}, request=request)
 
 
 @login_required
@@ -91,7 +65,9 @@ def create_new_post(request):
         return render(
             "new_post.html",
             {
-                "error": '<div class="alert alert-error">Title and content cannot be empty.</div>'
+                "title": title,
+                "body": body,
+                "error": "Title and content cannot be empty."
             },
             request=request
         )
@@ -137,9 +113,7 @@ def edit_post(request):
     return render(
         "edit_post.html",
         {
-            "id": post.id,
-            "title": post.title,
-            "body": post.get("body", ""),
+            "post": post,
             "error": ""
         },
         request=request
@@ -171,13 +145,12 @@ def update_post(request):
     body = request.form.get("body", "").strip()
 
     if not title or not body:
+        temp_post = {"id": post.id, "title": title, "body": body}
         return render(
             "edit_post.html",
             {
-                "id": post.id,
-                "title": title,
-                "body": body,
-                "error": '<div class="alert alert-error">Title and content cannot be empty.</div>'
+                "post": temp_post,
+                "error": "Title and content cannot be empty."
             },
             request=request
         )
@@ -219,4 +192,3 @@ def delete_post(request):
         reason="Found",
         headers={"Location": "/"}
     )
-

@@ -67,6 +67,7 @@ The purpose of this project is to understand each of these layers by implementin
 ✅ Static file serving
 ✅ SQLite integration & schema persistence
 ✅ Minimal ORM (ActiveRecord pattern)
+✅ Custom AST Template Engine (Pure Python: {% if %}, {% for %}, {% include %}, {{ expr }})
 ✅ Session management & cookies (HttpOnly tokens)
 ✅ Authentication (PBKDF2-SHA256 password hashing & registration)
 ✅ Authorization & permissions (Resource ownership: author-only edit & delete with 403 Forbidden)
@@ -110,6 +111,7 @@ The purpose of this project is to understand each of these layers by implementin
 │   └── theme.js
 └── templates/
     ├── home.html
+    ├── nav.html
     ├── posts.html
     ├── post.html
     ├── new_post.html

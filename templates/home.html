@@ -9,15 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <a href="/" class="site-title">PyBlog</a>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/posts/new">Write Post</a>
-                {{ auth_nav }}
-                <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
-            </nav>
-        </header>
+        {% include "nav.html" %}
 
         <main>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
@@ -36,7 +28,16 @@
             </form>
 
             <ul class="post-list">
-                {{ posts }}
+                {% for post in posts %}
+                    <li>
+                        <a href="/posts/{{ post.id }}">{{ post.title }}</a>
+                        <div class="post-meta" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.35rem;">
+                            By {{ post.author_name }}
+                        </div>
+                    </li>
+                {% empty %}
+                    <p>No posts found matching your search.</p>
+                {% endfor %}
             </ul>
         </main>
     </div>

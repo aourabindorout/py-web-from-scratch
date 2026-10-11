@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - My Blog</title>
+    <title>{{ post.title }} - My Blog</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="/static/theme.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <header>
-            <a href="/" class="site-title">PyBlog</a>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/posts/new">Write Post</a>
-                {{ auth_nav }}
-                <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
-            </nav>
-        </header>
+        {% include "nav.html" %}
 
         <main class="card">
-            <h1 style="margin-bottom: 0.25rem;">{{ title }}</h1>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">Published by {{ author }}</p>
-            <p style="font-size: 1.15rem; line-height: 1.8; margin-top: 1rem;">{{ body }}</p>
+            <h1 style="margin-bottom: 0.25rem;">{{ post.title }}</h1>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">Published by {{ post.author_name }}</p>
+            <p style="font-size: 1.15rem; line-height: 1.8; margin-top: 1rem;">{{ post.body }}</p>
 
-            {{ author_actions }}
+            {% if is_author %}
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                <a href="/posts/{{ post.id }}/edit" class="btn">Edit Post</a>
+                <form action="/posts/{{ post.id }}/delete" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                    <button type="submit" class="btn" style="background: #ef4444; border-color: #dc2626; color: #fff;">Delete Post</button>
+                </form>
+            </div>
+            {% endif %}
 
             <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
                 <a href="/">&larr; Back to all posts</a>

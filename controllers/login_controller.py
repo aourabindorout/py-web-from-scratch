@@ -23,7 +23,7 @@ def login(request):
         return render(
             "login.html",
             {
-                "error": '<div class="alert alert-error">User not found</div>',
+                "error": "User not found",
                 "next": next_url
             },
             request=request
@@ -33,7 +33,7 @@ def login(request):
         return render(
             "login.html",
             {
-                "error": '<div class="alert alert-error">Incorrect password</div>',
+                "error": "Incorrect password",
                 "next": next_url
             },
             request=request
@@ -54,7 +54,7 @@ def login(request):
 def show_register(request):
     if request.user:
         return Response(status_code=302, reason="Found", headers={"Location": "/"})
-    return render("register.html", {"error": ""}, request=request)
+    return render("register.html", {"error": "", "name": "", "username": ""}, request=request)
 
 
 def register(request):
@@ -66,35 +66,35 @@ def register(request):
     if not name or not username or not password:
         return render(
             "register.html",
-            {"error": '<div class="alert alert-error">All fields are required.</div>'},
+            {"error": "All fields are required.", "name": name, "username": username},
             request=request
         )
 
     if len(name) < 2:
         return render(
             "register.html",
-            {"error": '<div class="alert alert-error">Name must be at least 2 characters.</div>'},
+            {"error": "Name must be at least 2 characters.", "name": name, "username": username},
             request=request
         )
 
     if len(username) < 3:
         return render(
             "register.html",
-            {"error": '<div class="alert alert-error">Username must be at least 3 characters.</div>'},
+            {"error": "Username must be at least 3 characters.", "name": name, "username": username},
             request=request
         )
 
     if len(password) < 6:
         return render(
             "register.html",
-            {"error": '<div class="alert alert-error">Password must be at least 6 characters.</div>'},
+            {"error": "Password must be at least 6 characters.", "name": name, "username": username},
             request=request
         )
 
     if password != confirm_password:
         return render(
             "register.html",
-            {"error": '<div class="alert alert-error">Passwords do not match.</div>'},
+            {"error": "Passwords do not match.", "name": name, "username": username},
             request=request
         )
 
@@ -103,7 +103,7 @@ def register(request):
     if existing:
         return render(
             "register.html",
-            {"error": '<div class="alert alert-error">Username is already taken.</div>'},
+            {"error": "Username is already taken.", "name": name, "username": username},
             request=request
         )
 
@@ -120,7 +120,6 @@ def register(request):
     )
     response.set_cookie("session_id", token, path="/", http_only=True)
     return response
-
 
 
 def logout(request):

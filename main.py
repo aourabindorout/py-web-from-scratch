@@ -1,3 +1,4 @@
+import os
 import socket
 import traceback
 
@@ -85,6 +86,8 @@ def receive_request(client):
 
 
 def run_server(host="localhost", port=8080):
+    host = os.environ.get("HOST", host)
+    port = int(os.environ.get("PORT", port))
     init_db()
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

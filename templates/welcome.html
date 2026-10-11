@@ -9,16 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <a href="/" class="site-title">PyBlog</a>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/posts">Posts</a>
-                <a href="/posts/new">Write</a>
-                <a href="/login">Login</a>
-                <button id="theme-toggle" class="theme-toggle-btn">🌙 Night</button>
-            </nav>
-        </header>
+        {% include "nav.html" %}
 
         <main class="card" style="text-align: center; padding: 3rem 2rem;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">👋</div>
@@ -35,4 +26,3 @@
     </div>
 </body>
 </html>
-
